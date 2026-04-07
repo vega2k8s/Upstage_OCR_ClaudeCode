@@ -162,10 +162,14 @@ export default function HistoryPage() {
                     {r.image_url ? (
                       <button
                         onClick={() => setImageTarget({ url: r.image_url, storeName: r.store_name })}
-                        className="w-10 h-10 rounded-lg overflow-hidden border border-slate-200 hover:border-blue-400 transition-colors block"
+                        className="w-10 h-10 rounded-lg overflow-hidden border border-slate-200 hover:border-blue-400 transition-colors flex items-center justify-center bg-slate-50"
                         title="원본 영수증 보기"
                       >
-                        <img src={r.image_url} alt="영수증" className="w-full h-full object-cover" />
+                        {r.image_url.endsWith('.pdf') ? (
+                          <span className="text-xl">📄</span>
+                        ) : (
+                          <img src={r.image_url} alt="영수증" className="w-full h-full object-cover" />
+                        )}
                       </button>
                     ) : (
                       <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-300 text-lg">🧾</div>

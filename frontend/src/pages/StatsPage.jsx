@@ -48,20 +48,24 @@ const CustomPieTooltip = ({ active, payload }) => {
   )
 }
 
+const NULL_MONTH = 0  // 0 = 전체(연간)
+
 export default function StatsPage() {
   const now = new Date()
   const [year, setYear] = useState(now.getFullYear())
-  const [month, setMonth] = useState(now.getMonth() + 1)
+  const [month, setMonth] = useState(now.getMonth() + 1)  // 1~12, 0=전체
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  const isYearly = month === NULL_MONTH
+
   useEffect(() => {
-    const fetch = async () => {
+    const fetchData = async () => {
       setLoading(true)
       setError(null)
       try {
-        const res = await getStats(year, month)
+        const res = await getStats(year, isYearly ? null : month)
         setData(res.data)
       } catch {
         setError('통계를 불러오지 못했습니다.')
@@ -69,23 +73,31 @@ export default function StatsPage() {
         setLoading(false)
       }
     }
-    fetch()
-  }, [year, month])
+    fetchData()
+  }, [year, month, isYearly])
 
-  const diff = data ? data.total_amount - data.prev_month_amount : 0
-  const diffPercent = data?.prev_month_amount > 0
-    ? Math.round((diff / data.prev_month_amount) * 100)
+  const diff = data ? data.total_amount - data.prev_amount : 0
+  const diffPercent = data?.prev_amount > 0
+    ? Math.round((diff / data.prev_amount) * 100)
     : null
 
   const years = Array.from({ length: 5 }, (_, i) => now.getFullYear() - i)
   const months = Array.from({ length: 12 }, (_, i) => i + 1)
 
+  // 비교 기간 레이블
+  const compareLabel = isYearly ? '전년 대비' : '전월 대비'
+  const periodLabel = isYearly ? `${year}년 연간` : `${year}년 ${month}월`
+  const trendTitle = isYearly ? `${year}년 월별 지출 추이` : '최근 12개월 지출 추이'
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
-      {/* ── 헤더 + 월 선택 ── */}
+      {/* ── 헤더 + 기간 선택 ── */}
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <h1 className="text-xl font-bold text-slate-800">통계 대시보드</h1>
-        <div className="flex gap-2">
+        <div>
+          <h1 className="text-xl font-bold text-slate-800">통계 대시보드</h1>
+          <p className="text-sm text-slate-400 mt-0.5">{periodLabel} 지출 현황</p>
+        </div>
+        <div className="flex gap-2 items-center">
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
@@ -98,50 +110,63 @@ export default function StatsPage() {
             onChange={(e) => setMonth(Number(e.target.value))}
             className="border border-slate-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
           >
+            <option value={NULL_MONTH}>전체 (연간)</option>
             {months.map((m) => <option key={m} value={m}>{m}월</option>)}
           </select>
         </div>
       </div>
 
-      {loading && (
-        <div className="text-center py-20 text-slate-400">불러오는 중...</div>
-      )}
-      {error && (
-        <div className="text-center py-20 text-red-400">{error}</div>
-      )}
+      {loading && <div className="text-center py-20 text-slate-400">불러오는 중...</div>}
+      {error && <div className="text-center py-20 text-red-400">{error}</div>}
 
       {data && !loading && (
         <>
           {/* ── 요약 카드 ── */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-white border border-slate-200 rounded-2xl p-5">
-              <p className="text-sm text-slate-500 mb-1">이번 달 총 지출</p>
+              <p className="text-sm text-slate-500 mb-1">
+                {isYearly ? `${year}년 총 지출` : `${month}월 총 지출`}
+              </p>
               <p className="text-2xl font-bold text-slate-800">
                 {data.total_amount.toLocaleString()}원
               </p>
             </div>
+
             <div className="bg-white border border-slate-200 rounded-2xl p-5">
-              <p className="text-sm text-slate-500 mb-1">전월 대비</p>
-              <p className={`text-2xl font-bold ${diff > 0 ? 'text-red-500' : diff < 0 ? 'text-blue-500' : 'text-slate-800'}`}>
-                {diff === 0 ? '변동 없음' : `${diff > 0 ? '+' : ''}${diff.toLocaleString()}원`}
-              </p>
-              {diffPercent !== null && (
-                <p className="text-xs text-slate-400 mt-0.5">{diff > 0 ? '▲' : '▼'} {Math.abs(diffPercent)}%</p>
+              <p className="text-sm text-slate-500 mb-1">{compareLabel}</p>
+              {data.prev_amount === 0 && diff === 0 ? (
+                <p className="text-2xl font-bold text-slate-400">데이터 없음</p>
+              ) : (
+                <>
+                  <p className={`text-2xl font-bold ${diff > 0 ? 'text-red-500' : diff < 0 ? 'text-blue-500' : 'text-slate-800'}`}>
+                    {diff === 0 ? '변동 없음' : `${diff > 0 ? '+' : ''}${diff.toLocaleString()}원`}
+                  </p>
+                  {diffPercent !== null && (
+                    <p className="text-xs text-slate-400 mt-0.5">
+                      {diff > 0 ? '▲' : '▼'} {Math.abs(diffPercent)}%
+                    </p>
+                  )}
+                </>
               )}
             </div>
+
             <div className="bg-white border border-slate-200 rounded-2xl p-5">
               <p className="text-sm text-slate-500 mb-1">지출 카테고리 수</p>
               <p className="text-2xl font-bold text-slate-800">{data.by_category.length}개</p>
               {data.by_category[0] && (
-                <p className="text-xs text-slate-400 mt-0.5">최다 {data.by_category[0].category}</p>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  최다 {data.by_category[0].category}
+                </p>
               )}
             </div>
           </div>
 
-          {/* ── 월별 지출 추이 막대 차트 ── */}
+          {/* ── 추이 막대 차트 ── */}
+          {/* 월간 모드에서 해당 월 지출이 0이면 추이 차트 미표시 */}
+          {(!isYearly && data.total_amount === 0) ? null : (
           <div className="bg-white border border-slate-200 rounded-2xl p-5">
-            <h2 className="text-base font-semibold text-slate-700 mb-4">월별 지출 추이</h2>
-            {data.monthly_trend.length === 0 ? (
+            <h2 className="text-base font-semibold text-slate-700 mb-4">{trendTitle}</h2>
+            {data.monthly_trend.filter(t => t.amount > 0).length === 0 ? (
               <p className="text-center text-slate-400 py-10">데이터가 없습니다.</p>
             ) : (
               <ResponsiveContainer width="100%" height={240}>
@@ -150,24 +175,38 @@ export default function StatsPage() {
                   <XAxis
                     dataKey="month"
                     tick={{ fontSize: 11, fill: '#94a3b8' }}
-                    tickFormatter={(v) => v.slice(5)}
+                    tickFormatter={(v) => {
+                      const [y, m] = v.split('-')
+                      const multiYear = new Set(data.monthly_trend.map(t => t.month.slice(0, 4))).size > 1
+                      return multiYear ? `${y.slice(2)}.${m}` : `${parseInt(m)}월`
+                    }}
                   />
                   <YAxis
                     tick={{ fontSize: 11, fill: '#94a3b8' }}
                     tickFormatter={formatAmount}
-                    width={50}
+                    width={52}
                   />
                   <Tooltip content={<CustomBarTooltip />} />
-                  <Bar dataKey="amount" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                  <Bar
+                    dataKey="amount"
+                    radius={[6, 6, 0, 0]}
+                  >
+                    {data.monthly_trend.map((entry, i) => (
+                      <Cell
+                        key={i}
+                        fill={!isYearly && entry.month === `${year}-${String(month).padStart(2, '0')}` ? '#1d4ed8' : '#3b82f6'}
+                      />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             )}
           </div>
+          )}  {/* 월간 모드 지출 없음 조건 끝 */}
 
           {/* ── 카테고리 파이 차트 + 목록 ── */}
-          {data.by_category.length > 0 && (
+          {data.by_category.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* 파이 차트 */}
               <div className="bg-white border border-slate-200 rounded-2xl p-5">
                 <h2 className="text-base font-semibold text-slate-700 mb-4">카테고리별 비율</h2>
                 <ResponsiveContainer width="100%" height={260}>
@@ -187,14 +226,11 @@ export default function StatsPage() {
                       ))}
                     </Pie>
                     <Tooltip content={<CustomPieTooltip />} />
-                    <Legend
-                      formatter={(v) => <span style={{ fontSize: 12, color: '#64748b' }}>{v}</span>}
-                    />
+                    <Legend formatter={(v) => <span style={{ fontSize: 12, color: '#64748b' }}>{v}</span>} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
 
-              {/* 카테고리별 금액 목록 */}
               <div className="bg-white border border-slate-200 rounded-2xl p-5">
                 <h2 className="text-base font-semibold text-slate-700 mb-4">카테고리별 지출</h2>
                 <div className="space-y-3">
@@ -209,14 +245,10 @@ export default function StatsPage() {
                           <span className="text-xs text-slate-400 font-normal ml-1">({item.ratio}%)</span>
                         </span>
                       </div>
-                      {/* 비율 바 */}
                       <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-500"
-                          style={{
-                            width: `${item.ratio}%`,
-                            backgroundColor: PIE_COLORS[i % PIE_COLORS.length],
-                          }}
+                          style={{ width: `${item.ratio}%`, backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }}
                         />
                       </div>
                     </div>
@@ -224,12 +256,10 @@ export default function StatsPage() {
                 </div>
               </div>
             </div>
-          )}
-
-          {data.by_category.length === 0 && (
+          ) : (
             <div className="bg-white border border-slate-200 rounded-2xl p-16 text-center text-slate-400">
               <p className="text-3xl mb-2">📭</p>
-              <p>{year}년 {month}월에 등록된 지출 내역이 없습니다.</p>
+              <p>{periodLabel}에 등록된 지출 내역이 없습니다.</p>
             </div>
           )}
         </>

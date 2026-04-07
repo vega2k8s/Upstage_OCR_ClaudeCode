@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 
 export default function ImageModal({ imageUrl, storeName, onClose }) {
-  // ESC 키로 닫기
+  const isPdf = imageUrl?.endsWith('.pdf')
+
   useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape') onClose() }
     window.addEventListener('keydown', handler)
@@ -26,13 +27,29 @@ export default function ImageModal({ imageUrl, storeName, onClose }) {
             ✕
           </button>
         </div>
-        <div className="p-3 bg-slate-50 flex justify-center">
-          <img
-            src={imageUrl}
-            alt={`${storeName} 영수증`}
-            className="max-h-[70vh] object-contain rounded-lg"
-          />
-        </div>
+
+        {isPdf ? (
+          <div className="p-8 bg-slate-50 flex flex-col items-center gap-4">
+            <span className="text-6xl">📄</span>
+            <p className="text-sm text-slate-500 text-center">PDF 파일은 브라우저에서 직접 볼 수 없습니다.</p>
+            <a
+              href={imageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              PDF 새 탭에서 열기
+            </a>
+          </div>
+        ) : (
+          <div className="p-3 bg-slate-50 flex justify-center">
+            <img
+              src={imageUrl}
+              alt={`${storeName} 영수증`}
+              className="max-h-[70vh] object-contain rounded-lg"
+            />
+          </div>
+        )}
       </div>
     </div>
   )

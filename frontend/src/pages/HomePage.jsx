@@ -4,12 +4,15 @@ import ReceiptList from '../components/ReceiptList'
 
 export default function HomePage() {
   const [refreshTrigger, setRefreshTrigger] = useState(0)
-  const [lastUploaded, setLastUploaded] = useState(null)
+  const [lastUploaded, setLastUploaded] = useState(null) // 단건 or 배열
 
-  const handleUploadSuccess = (receipt) => {
-    setLastUploaded(receipt)
+  const handleUploadSuccess = (result) => {
+    setLastUploaded(result)
     setRefreshTrigger((n) => n + 1)
   }
+
+  const isMultiple = Array.isArray(lastUploaded)
+  const totalSaved = isMultiple ? lastUploaded.length : (lastUploaded ? 1 : 0)
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
@@ -22,7 +25,18 @@ export default function HomePage() {
 
       {lastUploaded && (
         <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-700">
-          ✅ <strong>{lastUploaded.store_name}</strong> ({lastUploaded.total_amount.toLocaleString()}원) 등록 완료!
+          {isMultiple ? (
+            <>
+              ✅ PDF에서 영수증 <strong>{totalSaved}건</strong> 등록 완료!
+              <ul className="mt-1 space-y-0.5 list-disc list-inside text-green-600">
+                {lastUploaded.map((r) => (
+                  <li key={r.id}>{r.store_name} — {r.total_amount.toLocaleString()}원</li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <>✅ <strong>{lastUploaded.store_name}</strong> ({lastUploaded.total_amount.toLocaleString()}원) 등록 완료!</>
+          )}
         </div>
       )}
 

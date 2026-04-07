@@ -9,7 +9,7 @@ from sqlalchemy import or_
 from pydantic import BaseModel
 from database import get_db
 from models.receipt import Receipt, ReceiptItem
-from services.langchain_pipeline import process_receipt
+from services.langchain_pipeline import process_receipt_file
 
 router = APIRouter(prefix="/api/receipts", tags=["receipts"])
 
@@ -67,45 +67,53 @@ async def upload_receipt(file: UploadFile = File(...), db: Session = Depends(get
     with open(file_path, "wb") as f:
         f.write(content)
 
-    # LangChain 파이프라인 실행
+    # LangChain 파이프라인 실행 (PDF는 페이지별 복수 결과)
     try:
-        parsed = process_receipt(file_path)
+        parsed_list = process_receipt_file(file_path)
     except Exception as e:
         os.remove(file_path)
         raise HTTPException(status_code=500, detail=f"영수증 처리 실패: {str(e)}")
 
-    # 날짜 문자열 → date 객체 변환
-    raw_date = parsed.get("date")
-    if isinstance(raw_date, str):
-        try:
-            receipt_date = datetime.strptime(raw_date, "%Y-%m-%d").date()
-        except ValueError:
+    if not parsed_list:
+        os.remove(file_path)
+        raise HTTPException(status_code=422, detail="영수증 내용을 인식하지 못했습니다.")
+
+    # 파싱된 영수증 수만큼 DB 저장
+    saved = []
+    for parsed in parsed_list:
+        raw_date = parsed.get("date")
+        if isinstance(raw_date, str):
+            try:
+                receipt_date = datetime.strptime(raw_date, "%Y-%m-%d").date()
+            except ValueError:
+                receipt_date = DateType.today()
+        elif isinstance(raw_date, DateType):
+            receipt_date = raw_date
+        else:
             receipt_date = DateType.today()
-    elif isinstance(raw_date, DateType):
-        receipt_date = raw_date
-    else:
-        receipt_date = DateType.today()
 
-    # DB 저장
-    receipt = Receipt(
-        store_name=parsed.get("store_name", "알 수 없음"),
-        date=receipt_date,
-        total_amount=parsed.get("total_amount", 0),
-        category=parsed.get("category", "기타"),
-        payment_method=parsed.get("payment_method"),
-        image_path=file_path,
-        raw_text=parsed.get("raw_text"),
-    )
-    db.add(receipt)
-    db.flush()
+        receipt = Receipt(
+            store_name=parsed.get("store_name", "알 수 없음"),
+            date=receipt_date,
+            total_amount=parsed.get("total_amount", 0),
+            category=parsed.get("category", "기타"),
+            payment_method=parsed.get("payment_method"),
+            image_path=file_path,
+            raw_text=parsed.get("raw_text"),
+        )
+        db.add(receipt)
+        db.flush()
 
-    for item in parsed.get("items", []):
-        db.add(ReceiptItem(receipt_id=receipt.id, name=item["name"], price=item["price"]))
+        for item in parsed.get("items", []):
+            db.add(ReceiptItem(receipt_id=receipt.id, name=item["name"], price=item["price"]))
+
+        db.refresh(receipt)
+        saved.append(receipt_to_dict(receipt))
 
     db.commit()
-    db.refresh(receipt)
 
-    return receipt_to_dict(receipt)
+    # 단건이면 dict, 복수이면 list 반환
+    return saved[0] if len(saved) == 1 else saved
 
 
 @router.get("")

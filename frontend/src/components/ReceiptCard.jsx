@@ -25,14 +25,18 @@ export default function ReceiptCard({ receipt, onEdit, onDelete }) {
           {receipt.image_url && (
             <button
               onClick={() => setShowImage(true)}
-              className="shrink-0 w-14 h-14 rounded-lg overflow-hidden border border-slate-200 hover:border-blue-400 transition-colors group"
+              className="shrink-0 w-14 h-14 rounded-lg overflow-hidden border border-slate-200 hover:border-blue-400 transition-colors group flex items-center justify-center bg-slate-50"
               title="원본 영수증 보기"
             >
-              <img
-                src={receipt.image_url}
-                alt="영수증"
-                className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
-              />
+              {receipt.image_url.endsWith('.pdf') ? (
+                <span className="text-2xl">📄</span>
+              ) : (
+                <img
+                  src={receipt.image_url}
+                  alt="영수증"
+                  className="w-full h-full object-cover group-hover:opacity-80 transition-opacity"
+                />
+              )}
             </button>
           )}
 

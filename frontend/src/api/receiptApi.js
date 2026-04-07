@@ -21,5 +21,9 @@ export const updateReceipt = (id, data) =>
 export const deleteReceipt = (id) =>
   api.delete(`/receipts/${id}`)
 
-export const getStats = (year, month) =>
-  api.get('/stats', { params: { year, month } })
+// month가 null/undefined이면 연간 통계 요청
+export const getStats = (year, month) => {
+  const params = { year }
+  if (month) params.month = month
+  return api.get('/stats', { params })
+}
