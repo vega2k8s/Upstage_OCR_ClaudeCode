@@ -1,0 +1,110 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🧾
+        - generic [ref=e8]: 지출관리
+      - link "홈" [ref=e9] [cursor=pointer]:
+        - /url: /
+      - link "지출 내역" [ref=e10] [cursor=pointer]:
+        - /url: /history
+      - link "통계" [ref=e11] [cursor=pointer]:
+        - /url: /stats
+  - generic [ref=e12]:
+    - generic [ref=e14]:
+      - heading "지출 내역" [level=1] [ref=e15]
+      - paragraph [ref=e16]: 전체 4건
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e20]: 가게명
+        - textbox "검색..." [ref=e21]
+      - generic [ref=e22]:
+        - generic [ref=e23]: 카테고리
+        - combobox [ref=e24]:
+          - option "전체" [selected]
+          - option "식비"
+          - option "카페/음료"
+          - option "편의점/마트"
+          - option "교통"
+          - option "의류/패션"
+          - option "생활용품"
+          - option "의료/건강"
+          - option "문화/여가"
+          - option "기타"
+      - generic [ref=e25]:
+        - generic [ref=e26]: 시작일
+        - textbox [ref=e27]: 2026-01-01
+      - generic [ref=e28]:
+        - generic [ref=e29]: 종료일
+        - textbox [active] [ref=e30]: 2026-03-31
+      - button "초기화" [ref=e477]
+    - table [ref=e480]:
+      - rowgroup [ref=e481]:
+        - row "날짜 가게명 주요 품목 카테고리 금액 관리" [ref=e482]:
+          - columnheader [ref=e483]
+          - columnheader "날짜" [ref=e484]
+          - columnheader "가게명" [ref=e485]
+          - columnheader "주요 품목" [ref=e486]
+          - columnheader "카테고리" [ref=e487]
+          - columnheader "금액" [ref=e488]
+          - columnheader "관리" [ref=e489]
+      - rowgroup [ref=e490]:
+        - row "영수증 2026-03-04 CGV 광양 왕과 사는 남자 문화/여가 23,500원 수정 삭제" [ref=e491]:
+          - cell "영수증" [ref=e492]:
+            - button "영수증" [ref=e493]:
+              - img "영수증" [ref=e494]
+          - cell "2026-03-04" [ref=e495]
+          - cell "CGV 광양" [ref=e496]:
+            - generic [ref=e497]: CGV 광양
+          - cell "왕과 사는 남자" [ref=e498]
+          - cell "문화/여가" [ref=e499]
+          - cell "23,500원" [ref=e500]
+          - cell "수정 삭제" [ref=e501]:
+            - generic [ref=e502]:
+              - button "수정" [ref=e503]
+              - button "삭제" [ref=e504]
+        - row "📄 2026-02-06 GS25성내동원점 카드 해태)사브레84G, 해태)버터링65G 외 6건 편의점/마트 12,400원 수정 삭제" [ref=e505]:
+          - cell "📄" [ref=e506]:
+            - button "📄" [ref=e507]:
+              - generic [ref=e508]: 📄
+          - cell "2026-02-06" [ref=e509]
+          - cell "GS25성내동원점 카드" [ref=e510]:
+            - generic [ref=e511]: GS25성내동원점
+            - generic [ref=e512]: 카드
+          - cell "해태)사브레84G, 해태)버터링65G 외 6건" [ref=e513]
+          - cell "편의점/마트" [ref=e514]
+          - cell "12,400원" [ref=e515]
+          - cell "수정 삭제" [ref=e516]:
+            - generic [ref=e517]:
+              - button "수정" [ref=e518]
+              - button "삭제" [ref=e519]
+        - row "📄 2026-01-15 GS25성내동원점 카드 CLOOP애사비0G, 애사비레몬 외 1건 편의점/마트 4,000원 수정 삭제" [ref=e520]:
+          - cell "📄" [ref=e521]:
+            - button "📄" [ref=e522]:
+              - generic [ref=e523]: 📄
+          - cell "2026-01-15" [ref=e524]
+          - cell "GS25성내동원점 카드" [ref=e525]:
+            - generic [ref=e526]: GS25성내동원점
+            - generic [ref=e527]: 카드
+          - cell "CLOOP애사비0G, 애사비레몬 외 1건" [ref=e528]
+          - cell "편의점/마트" [ref=e529]
+          - cell "4,000원" [ref=e530]
+          - cell "수정 삭제" [ref=e531]:
+            - generic [ref=e532]:
+              - button "수정" [ref=e533]
+              - button "삭제" [ref=e534]
+        - row "📄 2026-01-09 GS25성내동원점 카드 바이오틱사과, 비요뜨(베리) 외 6건 편의점/마트 13,700원 수정 삭제" [ref=e535]:
+          - cell "📄" [ref=e536]:
+            - button "📄" [ref=e537]:
+              - generic [ref=e538]: 📄
+          - cell "2026-01-09" [ref=e539]
+          - cell "GS25성내동원점 카드" [ref=e540]:
+            - generic [ref=e541]: GS25성내동원점
+            - generic [ref=e542]: 카드
+          - cell "바이오틱사과, 비요뜨(베리) 외 6건" [ref=e543]
+          - cell "편의점/마트" [ref=e544]
+          - cell "13,700원" [ref=e545]
+          - cell "수정 삭제" [ref=e546]:
+            - generic [ref=e547]:
+              - button "수정" [ref=e548]
+              - button "삭제" [ref=e549]

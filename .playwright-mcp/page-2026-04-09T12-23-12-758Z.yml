@@ -1,0 +1,43 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🧾
+        - generic [ref=e8]: 지출관리
+      - link "홈" [ref=e9] [cursor=pointer]:
+        - /url: /
+      - link "지출 내역" [ref=e10] [cursor=pointer]:
+        - /url: /history
+      - link "통계" [ref=e11] [cursor=pointer]:
+        - /url: /stats
+  - generic [ref=e12]:
+    - generic [ref=e14]:
+      - heading "지출 내역" [level=1] [ref=e15]
+      - paragraph [ref=e16]: 전체 0건
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e20]: 가게명
+        - textbox "검색..." [ref=e21]
+      - generic [ref=e22]:
+        - generic [ref=e23]: 카테고리
+        - combobox [ref=e24]:
+          - option "전체" [selected]
+          - option "식비"
+          - option "카페/음료"
+          - option "편의점/마트"
+          - option "교통"
+          - option "의류/패션"
+          - option "생활용품"
+          - option "의료/건강"
+          - option "문화/여가"
+          - option "기타"
+      - generic [ref=e25]:
+        - generic [ref=e26]: 시작일
+        - textbox [ref=e27]: 2020-01-01
+      - generic [ref=e28]:
+        - generic [ref=e29]: 종료일
+        - textbox [active] [ref=e30]: 2020-12-31
+      - button "초기화" [ref=e477]
+    - generic [ref=e607]:
+      - img [ref=e614]
+      - paragraph [ref=e616]: 등록된 지출 내역이 없습니다.

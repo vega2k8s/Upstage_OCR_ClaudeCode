@@ -39,28 +39,40 @@ export default function UploadArea({ onUploadSuccess }) {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-      <h2 className="text-lg font-semibold text-slate-700 mb-4">영수증 업로드</h2>
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+      <h2 className="text-sm font-semibold text-slate-600 uppercase tracking-wider mb-4">영수증 업로드</h2>
 
       <div
-        className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors
-          ${dragging ? 'border-blue-400 bg-blue-50' : 'border-slate-300 hover:border-blue-400 hover:bg-blue-50'}`}
-        onClick={() => inputRef.current?.click()}
+        className={`border-2 border-dashed rounded-xl py-12 px-6 text-center cursor-pointer transition-all duration-200
+          ${dragging
+            ? 'border-indigo-400 bg-indigo-50/60'
+            : 'border-slate-200 hover:border-indigo-300 hover:bg-slate-50/80'
+          }`}
+        onClick={() => !loading && inputRef.current?.click()}
         onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
       >
-        <div className="text-4xl mb-3">🧾</div>
         {loading ? (
-          <div>
-            <div className="inline-block w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mb-2" />
-            <p className="text-blue-600 font-medium">AI가 영수증을 분석 중입니다...</p>
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <div>
+              <p className="text-indigo-600 font-medium text-sm">AI가 영수증을 분석 중입니다...</p>
+              <p className="text-slate-400 text-xs mt-1">잠시만 기다려 주세요</p>
+            </div>
           </div>
         ) : (
-          <>
-            <p className="text-slate-600 font-medium">클릭하거나 파일을 드래그하세요</p>
-            <p className="text-slate-400 text-sm mt-1">JPG, PNG, PDF · 최대 10MB</p>
-          </>
+          <div className="flex flex-col items-center gap-3">
+            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${dragging ? 'bg-indigo-100' : 'bg-slate-100'}`}>
+              <svg className={`w-6 h-6 transition-colors ${dragging ? 'text-indigo-500' : 'text-slate-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-slate-700 font-medium text-sm">클릭하거나 파일을 드래그하세요</p>
+              <p className="text-slate-400 text-xs mt-1">JPG, PNG, PDF · 최대 10MB</p>
+            </div>
+          </div>
         )}
       </div>
 
@@ -73,7 +85,12 @@ export default function UploadArea({ onUploadSuccess }) {
       />
 
       {error && (
-        <p className="mt-3 text-red-500 text-sm bg-red-50 px-4 py-2 rounded-lg">{error}</p>
+        <div className="mt-3 flex items-start gap-2 text-rose-600 text-sm bg-rose-50 border border-rose-100 px-4 py-2.5 rounded-xl">
+          <svg className="w-4 h-4 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+          </svg>
+          {error}
+        </div>
       )}
     </div>
   )

@@ -363,25 +363,63 @@ receipt-manager/
 
 ## 8. 화면 구성
 
+### 8.0 디자인 시스템
+
+**스타일 원칙**: 미니멀하고 모던한 느낌 (TailwindCSS 유틸리티 기반)
+
+| 항목 | 적용 방식 |
+|------|----------|
+| 주 액션 컬러 | Indigo (`indigo-600`) |
+| 위험/삭제 컬러 | Rose (`rose-500`) |
+| 성공/완료 컬러 | Emerald (`emerald-500`) |
+| 배경 | `bg-slate-50` (페이지), `bg-white` (카드) |
+| 카드 스타일 | `shadow-sm border border-slate-100 rounded-xl` (테두리 최소화, 그림자 강조) |
+| 인풋 포커스 | `focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-400` |
+| 카테고리 배지 | `bg-xxx-50 text-xxx-600 ring-1 ring-xxx-200` (ring 스타일) |
+| 섹션 타이틀 | `text-xs font-semibold uppercase tracking-wider text-slate-600` |
+| 로딩 상태 | 인디고 스피너 애니메이션 (`border-indigo-500 border-t-transparent animate-spin`) |
+| 빈 상태 | SVG 아이콘 + 안내 텍스트 (이모지 미사용) |
+| 모달 오버레이 | `bg-black/50 backdrop-blur-sm` |
+| 폰트 스무딩 | `-webkit-font-smoothing: antialiased` |
+
+**Navbar**
+- 로고: 이모지(🧾) + `지출관리` (인디고 강조)
+- 네비게이션 링크: 이모지 없는 텍스트만 표시
+- 활성 링크: `bg-indigo-50 text-indigo-600`
+- 하단 구분선: `shadow-[0_1px_0_0_#f1f5f9]` (미세한 라인)
+
 ### 8.1 메인 페이지 (홈)
-- 상단: 이번 달 총 지출 요약 카드
+- 상단: 타이틀 + 부제목 (중앙 정렬)
 - 중단: 영수증 업로드 영역 (드래그 앤 드롭 지원)
-- 하단: 최근 등록된 지출 내역 (카드 형태, 영수증 썸네일 포함)
+  - SVG 업로드 아이콘 (이모지 미사용)
+  - 드래그 시: `border-indigo-400 bg-indigo-50/60` 강조
+  - 분석 중: 인디고 스피너 + 안내 메시지
+  - 에러: SVG 아이콘 + `rose-50` 배경 알림
+- 업로드 성공 알림: `bg-emerald-50 border border-emerald-100` 토스트
+- 하단: 최근 등록된 지출 내역 (ReceiptCard 형태)
 
 ### 8.2 지출 내역 페이지
-- 날짜/카테고리 필터
-- 지출 목록 테이블 (영수증 썸네일 컬럼 포함)
-- 각 항목 수정/삭제 버튼
+- 필터 바: `bg-white shadow-sm` 카드 안에 라벨+인풋 쌍 배치
+- 지출 목록 테이블: `bg-white shadow-sm` 카드, 행 hover `bg-slate-50/60`
+  - 썸네일 없을 때: SVG 문서 아이콘 표시
+  - 수정 버튼: `text-indigo-500 hover:bg-indigo-50`
+  - 삭제 버튼: `text-rose-400 hover:bg-rose-50`
+- 삭제 확인 모달: SVG 삭제 아이콘 박스 + `backdrop-blur-sm`
 - 썸네일 클릭 시 원본 영수증 이미지 모달
 
 ### 8.3 통계 페이지
-- 연도 선택 드롭다운 + 월 선택 드롭다운 (전체=연간 / 특정 월=월간)
-- 요약 카드: 총 지출 / 전년(전월) 대비 증감 / 카테고리 수
-- 지출 추이 막대 차트
-  - 연간 모드: 해당 연도 1~12월 (데이터 없는 월 0 표시, 항상 출력)
-  - 월간 모드 (지출 있음): 선택 월 기준 정확한 12개월 범위 내 데이터만 표시 (선택한 월 진한 파란색 강조)
+- 연도/월 선택 드롭다운 (인디고 포커스 링)
+- 요약 카드 3개: 좌측 컬러 테두리(`border-l-4`)로 시각 구분
+  - 총 지출: `border-l-indigo-500`
+  - 전월/전년 대비: 증가 `border-l-rose-400` / 감소 `border-l-emerald-400`
+  - 카테고리 수: `border-l-violet-400`
+- 지출 추이 막대 차트 (Recharts BarChart)
+  - 막대 색상: `#6366f1` (인디고), 선택 월 강조 `#4338ca` (진한 인디고)
+  - 데이터 없는 막대: `fillOpacity: 0.25`
+  - 연간 모드: 해당 연도 1~12월 항상 표시
+  - 월간 모드 (지출 있음): 선택 월 기준 정확한 12개월 범위만 표시
   - 월간 모드 (지출 없음): 차트 미표시
-- 카테고리별 파이 차트
+- 카테고리별 파이 차트 (인디고 계열 색상 팔레트)
 - 카테고리별 지출 금액 + 비율 바 목록
 
 ---
@@ -399,7 +437,7 @@ receipt-manager/
 | 2단계 | 원본 영수증 이미지 보기 (썸네일 + 모달) | 필수 | ✅ 완료 |
 | 3단계 | 통계 대시보드 (차트) | 권장 | ✅ 완료 |
 | 3단계 | 카테고리 필터 및 검색 | 권장 | ✅ 완료 |
-| 4단계 | UI 디자인 개선 (TailwindCSS) | 선택 |  |
+| 4단계 | UI 디자인 개선 (TailwindCSS) | 선택 | ✅ 완료 |
 
 ---
 

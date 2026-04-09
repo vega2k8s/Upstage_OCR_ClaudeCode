@@ -1,0 +1,95 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🧾
+        - generic [ref=e8]: 지출관리
+      - link "홈" [ref=e9] [cursor=pointer]:
+        - /url: /
+      - link "지출 내역" [ref=e10] [cursor=pointer]:
+        - /url: /history
+      - link "통계" [ref=e11] [cursor=pointer]:
+        - /url: /stats
+  - generic [ref=e12]:
+    - generic [ref=e14]:
+      - heading "지출 내역" [level=1] [ref=e15]
+      - paragraph [ref=e16]: 전체 3건
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e20]: 가게명
+        - textbox "검색..." [ref=e21]
+      - generic [ref=e22]:
+        - generic [ref=e23]: 카테고리
+        - combobox [ref=e24]:
+          - option "전체" [selected]
+          - option "식비"
+          - option "카페/음료"
+          - option "편의점/마트"
+          - option "교통"
+          - option "의류/패션"
+          - option "생활용품"
+          - option "의료/건강"
+          - option "문화/여가"
+          - option "기타"
+      - generic [ref=e25]:
+        - generic [ref=e26]: 시작일
+        - textbox [ref=e27]: 2026-04-01
+      - generic [ref=e28]:
+        - generic [ref=e29]: 종료일
+        - textbox [active] [ref=e30]: 2026-04-30
+      - button "초기화" [ref=e477]
+    - table [ref=e552]:
+      - rowgroup [ref=e553]:
+        - row "날짜 가게명 주요 품목 카테고리 금액 관리" [ref=e554]:
+          - columnheader [ref=e555]
+          - columnheader "날짜" [ref=e556]
+          - columnheader "가게명" [ref=e557]
+          - columnheader "주요 품목" [ref=e558]
+          - columnheader "카테고리" [ref=e559]
+          - columnheader "금액" [ref=e560]
+          - columnheader "관리" [ref=e561]
+      - rowgroup [ref=e562]:
+        - row "영수증 2026-04-07 국민건강보험 요양기관 카드 — 의료/건강 2,000,000원 수정 삭제" [ref=e563]:
+          - cell "영수증" [ref=e564]:
+            - button "영수증" [ref=e565]:
+              - img "영수증" [ref=e566]
+          - cell "2026-04-07" [ref=e567]
+          - cell "국민건강보험 요양기관 카드" [ref=e568]:
+            - generic [ref=e569]: 국민건강보험 요양기관
+            - generic [ref=e570]: 카드
+          - cell "—" [ref=e571]
+          - cell "의료/건강" [ref=e572]
+          - cell "2,000,000원" [ref=e573]
+          - cell "수정 삭제" [ref=e574]:
+            - generic [ref=e575]:
+              - button "수정" [ref=e576]
+              - button "삭제" [ref=e577]
+        - row "영수증 2026-04-07 KEA이케어 코리아 고양점 MULIG 행거 99x46, KNOPP?NG 액 자 외 6건 생활용품 71,300원 수정 삭제" [ref=e578]:
+          - cell "영수증" [ref=e579]:
+            - button "영수증" [ref=e580]:
+              - img "영수증" [ref=e581]
+          - cell "2026-04-07" [ref=e582]
+          - cell "KEA이케어 코리아 고양점" [ref=e583]:
+            - generic [ref=e584]: KEA이케어 코리아 고양점
+          - cell "MULIG 행거 99x46, KNOPP?NG 액 자 외 6건" [ref=e585]
+          - cell "생활용품" [ref=e586]
+          - cell "71,300원" [ref=e587]
+          - cell "수정 삭제" [ref=e588]:
+            - generic [ref=e589]:
+              - button "수정" [ref=e590]
+              - button "삭제" [ref=e591]
+        - row "영수증 2026-04-02 CU 개포스카이점 카드 칸쵸, 동원)소화잘되는초코 외 2건 편의점/마트 4,500원 수정 삭제" [ref=e592]:
+          - cell "영수증" [ref=e593]:
+            - button "영수증" [ref=e594]:
+              - img "영수증" [ref=e595]
+          - cell "2026-04-02" [ref=e596]
+          - cell "CU 개포스카이점 카드" [ref=e597]:
+            - generic [ref=e598]: CU 개포스카이점
+            - generic [ref=e599]: 카드
+          - cell "칸쵸, 동원)소화잘되는초코 외 2건" [ref=e600]
+          - cell "편의점/마트" [ref=e601]
+          - cell "4,500원" [ref=e602]
+          - cell "수정 삭제" [ref=e603]:
+            - generic [ref=e604]:
+              - button "수정" [ref=e605]
+              - button "삭제" [ref=e606]

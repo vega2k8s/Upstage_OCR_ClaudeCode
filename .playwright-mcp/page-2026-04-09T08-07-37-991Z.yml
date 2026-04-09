@@ -1,0 +1,96 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🧾
+        - generic [ref=e8]: 지출관리
+      - link "홈" [ref=e9] [cursor=pointer]:
+        - /url: /
+      - link "지출 내역" [ref=e10] [cursor=pointer]:
+        - /url: /history
+      - link "통계" [ref=e11] [cursor=pointer]:
+        - /url: /stats
+  - generic [ref=e13]:
+    - generic [ref=e15]:
+      - heading "지출 내역" [level=1] [ref=e16]
+      - paragraph [ref=e17]: 전체 3건
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e21]: 가게명
+        - textbox "검색..." [active] [ref=e22]: GS25
+      - generic [ref=e23]:
+        - generic [ref=e24]: 카테고리
+        - combobox [ref=e25]:
+          - option "전체" [selected]
+          - option "식비"
+          - option "카페/음료"
+          - option "편의점/마트"
+          - option "교통"
+          - option "의류/패션"
+          - option "생활용품"
+          - option "의료/건강"
+          - option "문화/여가"
+          - option "기타"
+      - generic [ref=e26]:
+        - generic [ref=e27]: 시작일
+        - textbox [ref=e28]
+      - generic [ref=e29]:
+        - generic [ref=e30]: 종료일
+        - textbox [ref=e31]
+      - button "초기화" [ref=e197]
+    - table [ref=e200]:
+      - rowgroup [ref=e201]:
+        - row "날짜 가게명 주요 품목 카테고리 금액 관리" [ref=e202]:
+          - columnheader [ref=e203]
+          - columnheader "날짜" [ref=e204]
+          - columnheader "가게명" [ref=e205]
+          - columnheader "주요 품목" [ref=e206]
+          - columnheader "카테고리" [ref=e207]
+          - columnheader "금액" [ref=e208]
+          - columnheader "관리" [ref=e209]
+      - rowgroup [ref=e210]:
+        - row "📄 2026-02-06 GS25성내동원점 카드 해태)사브레84G, 해태)버터링65G 외 6건 편의점/마트 12,400원 수정 삭제" [ref=e211]:
+          - cell "📄" [ref=e212]:
+            - button "📄" [ref=e213]:
+              - generic [ref=e214]: 📄
+          - cell "2026-02-06" [ref=e215]
+          - cell "GS25성내동원점 카드" [ref=e216]:
+            - generic [ref=e217]: GS25성내동원점
+            - generic [ref=e218]: 카드
+          - cell "해태)사브레84G, 해태)버터링65G 외 6건" [ref=e219]
+          - cell "편의점/마트" [ref=e220]
+          - cell "12,400원" [ref=e221]
+          - cell "수정 삭제" [ref=e222]:
+            - generic [ref=e223]:
+              - button "수정" [ref=e224]
+              - button "삭제" [ref=e225]
+        - row "📄 2026-01-15 GS25성내동원점 카드 CLOOP애사비0G, 애사비레몬 외 1건 편의점/마트 4,000원 수정 삭제" [ref=e226]:
+          - cell "📄" [ref=e227]:
+            - button "📄" [ref=e228]:
+              - generic [ref=e229]: 📄
+          - cell "2026-01-15" [ref=e230]
+          - cell "GS25성내동원점 카드" [ref=e231]:
+            - generic [ref=e232]: GS25성내동원점
+            - generic [ref=e233]: 카드
+          - cell "CLOOP애사비0G, 애사비레몬 외 1건" [ref=e234]
+          - cell "편의점/마트" [ref=e235]
+          - cell "4,000원" [ref=e236]
+          - cell "수정 삭제" [ref=e237]:
+            - generic [ref=e238]:
+              - button "수정" [ref=e239]
+              - button "삭제" [ref=e240]
+        - row "📄 2026-01-09 GS25성내동원점 카드 바이오틱사과, 비요뜨(베리) 외 6건 편의점/마트 13,700원 수정 삭제" [ref=e241]:
+          - cell "📄" [ref=e242]:
+            - button "📄" [ref=e243]:
+              - generic [ref=e244]: 📄
+          - cell "2026-01-09" [ref=e245]
+          - cell "GS25성내동원점 카드" [ref=e246]:
+            - generic [ref=e247]: GS25성내동원점
+            - generic [ref=e248]: 카드
+          - cell "바이오틱사과, 비요뜨(베리) 외 6건" [ref=e249]
+          - cell "편의점/마트" [ref=e250]
+          - cell "13,700원" [ref=e251]
+          - cell "수정 삭제" [ref=e252]:
+            - generic [ref=e253]:
+              - button "수정" [ref=e254]
+              - button "삭제" [ref=e255]
