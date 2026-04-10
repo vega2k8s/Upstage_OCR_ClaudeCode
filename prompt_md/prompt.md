@@ -120,4 +120,7 @@ test_ocr.py 와 test_llm.py 테스트 코드는 어떤 차이가 있는 거죠?
 2. 각각의 테스트 결과의 image들은 @test_result\test1, @test_result\test2, @test_result\test3에 저장해 주세요.
 3. 3개의 테스트를 모두 수행한 후에 보고서는 @test_result\지출내역_테스트결과.md 를 작성해 주세요.
 
+@images/ui/ui_history_category_print_error.png 이미지에서 
+카테고리 이름의 마지막 글자가 아래로 내려오지 않도록 해주세요.
+
 ```

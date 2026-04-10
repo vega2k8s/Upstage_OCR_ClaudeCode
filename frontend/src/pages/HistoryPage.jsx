@@ -206,7 +206,7 @@ export default function HistoryPage() {
                     }
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${CATEGORY_COLORS[r.category] ?? CATEGORY_COLORS['기타']}`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap ${CATEGORY_COLORS[r.category] ?? CATEGORY_COLORS['기타']}`}>
                       {r.category}
                     </span>
                   </td>
