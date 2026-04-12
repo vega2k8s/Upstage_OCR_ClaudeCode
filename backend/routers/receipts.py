@@ -28,11 +28,14 @@ class ReceiptUpdate(BaseModel):
 
 
 def _image_url(image_path: str | None) -> str | None:
-    """로컬 파일 경로 → 클라이언트에서 접근 가능한 URL로 변환"""
+    """로컬 파일 경로 → 클라이언트에서 접근 가능한 URL로 변환
+    Vercel 배포 시 experimentalServices 라우트 프리픽스(/_/backend) 적용
+    """
     if not image_path:
         return None
     filename = os.path.basename(image_path)
-    return f"/uploads/{filename}"
+    prefix = "/_/backend" if os.getenv("VERCEL") == "1" else ""
+    return f"{prefix}/uploads/{filename}"
 
 
 def receipt_to_dict(receipt: Receipt) -> dict:
