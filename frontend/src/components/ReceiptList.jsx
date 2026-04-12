@@ -31,8 +31,8 @@ export default function ReceiptList({ refreshTrigger }) {
       if (endDate) params.end_date = endDate
 
       const res = await getReceipts(params)
-      setReceipts(res.data.items)
-      setTotal(res.data.total)
+      setReceipts(res.data?.items ?? [])
+      setTotal(res.data?.total ?? 0)
     } catch (e) {
       console.error(e)
     } finally {
