@@ -13,7 +13,8 @@ from services.langchain_pipeline import process_receipt_file
 
 router = APIRouter(prefix="/api/receipts", tags=["receipts"])
 
-UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
+_is_vercel = os.getenv("VERCEL") == "1"
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", "/tmp/uploads" if _is_vercel else "./uploads")
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".pdf"}
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
 

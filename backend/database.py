@@ -5,7 +5,10 @@ import os
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./receipts.db")
+# Vercel 환경에서는 /tmp만 쓰기 가능 (데이터는 Cold Start 시 초기화됨)
+_is_vercel = os.getenv("VERCEL") == "1"
+_default_db = "sqlite:////tmp/receipts.db" if _is_vercel else "sqlite:///./receipts.db"
+DATABASE_URL = os.getenv("DATABASE_URL", _default_db)
 
 engine = create_engine(
     DATABASE_URL,
