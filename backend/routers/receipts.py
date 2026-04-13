@@ -9,7 +9,7 @@ from sqlalchemy import or_
 from pydantic import BaseModel
 from database import get_db
 from models.receipt import Receipt, ReceiptItem
-from services.langchain_pipeline import process_receipt_file
+from services.agent_pipeline import process_receipt_with_agents as process_receipt_file
 
 router = APIRouter(prefix="/api/receipts", tags=["receipts"])
 
